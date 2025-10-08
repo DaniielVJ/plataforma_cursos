@@ -8,7 +8,7 @@ def courses_list(request):
 
 
 def course_detail(request):
-    pass
+    return render(request, 'courses/course_detail.html')
 
 
 

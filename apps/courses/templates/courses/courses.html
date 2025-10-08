@@ -1,3 +1,16 @@
+{% extends 'base.html' %}    
+{% load static %}
+
+
+{% block title %}Listado de Cursos{% endblock title %}
+
+
+{% block custom_styles %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock custom_styles %}
+
+
+{% block content %}
     <div class="layout">
 
         <div class="sidebar">
@@ -10,8 +23,6 @@
                 </li>
                 <li><a class="menu-option" href="courses.html"><i
                             class="fa-solid fa-chalkboard-user icon"></i><span>Cursos</span></a></li>
-
-
             </ul>
             <ul class="bottom-menu">
                 <li><a class="menu-option" href="#"><i class="fa-solid fa-question icon"></i><span>Soporte</span></a>
@@ -140,4 +151,9 @@
             </main>
         </div>
     </div>
-    <script src="./js/script.js"></script>
+{% endblock content %}
+
+{% block scripts %}
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock scripts %}
+  

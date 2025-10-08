@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 def courses_list(request):
-    pass
+    return render(request, 'courses/courses.html')
 
 
 def course_detail(request):

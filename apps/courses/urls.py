@@ -22,4 +22,6 @@ courses_list ya que la accion que realiza es listar los cursos.
 Entonces al crear una url debemos pensar que funcion hara cuando se utilize, ejemplo create_course
 y al utilizar esa url es para crear el curso.
 
+O pensar, quiero hacer esta funcionalidad, por ende voy a crear esta url y esta sera encargada de 
+ejecutar dicha funcionalidad.
 '''

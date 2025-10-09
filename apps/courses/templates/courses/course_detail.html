@@ -26,6 +26,10 @@
             <!--Header-->
             {% include 'includes/header.html' %}
 
+            <!--Buena practica probar que los datos se esten pasando correctamente al template encargado de mostrar
+            los detalles del curso seleccionado-->
+            {% comment %} {{course}} {% endcomment %}
+
             <!-- Aquí va el contenido de la página -->
             <main>
                 <!-- === COURSE OVERVIEW === -->
@@ -34,16 +38,24 @@
                     <div class="course-sections">
                         <h2>Contenido del curso</h2>
                         <div class="accordion">
-                            <div class="accordion-item">
-                                <button class="accordion-header">Sección 1: Introducción al curso</button>
-                                <div class="accordion-content">
-                                    <ul>
-                                        <li><i class="fa-solid fa-video"></i>¿Qué aprenderás en este curso?</li>
-                                        <li><i class="fa-solid fa-file"></i>Cómo usar la plataforma</li>
-                                    </ul>
+                            
+                            {% for content in course.course_content %}
+                                <div class="accordion-item">
+                                    <button class="accordion-header">Sección {{content.id}}: {{content.name}}</button>
+                                    <div class="accordion-content">
+                                        <ul>
+                                            {% for lesson in content.lessons %}
+                                                 <li><i class="fa-solid fa-{{lesson.type}}"></i>{{lesson.name}}</li>
+                                            {% endfor %}
+                                           
+                                            <li><i class="fa-solid fa-file"></i>Cómo usar la plataforma</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="accordion-item">
+                            {% endfor %}
+                                
+
+                            {% comment %} <div class="accordion-item">
                                 <button class="accordion-header">Sección 2: Fundamentos necesarios de Python</button>
                                 <div class="accordion-content">
                                     <ul>
@@ -61,7 +73,7 @@
                                         <li>Primer proyecto con Django</li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                             <!-- Agrega más secciones similares -->
                         </div>
                     </div>
@@ -69,16 +81,16 @@
                     <!-- Card lateral -->
                     <div class="course-info-card">
                         <div class="card-banner">
-                            <div class="tag">{devilearn}</div>
+                            <div class="tag">{ devilearn }</div>
                             <img src="https://placehold.co/600x200/1e1e1e/ffffff?text=django" alt="Curso Django" />
                             <img class="author-avatar" src="https://randomuser.me/api/portraits/men/15.jpg" alt="Autor">
                         </div>
                         <div class="card-body">
                             <h3>Acerca de este curso</h3>
                             <ul class="course-details">
-                                <li><i class="fa-solid fa-file"></i> 79 lecciones</li>
-                                <li><i class="fa-solid fa-video"></i> 8 horas de contenido en video</li>
-                                <li><i class="fa-solid fa-graduation-cap"></i> Ricardo Cuéllar</li>
+                                <li><i class="fa-solid fa-file"></i> {{course.course_info.lessons}} lecciones</li>
+                                <li><i class="fa-solid fa-video"></i> {{course.course_info.duration}} horas de contenido en video</li>
+                                <li><i class="fa-solid fa-graduation-cap"></i>{{course.course_info.instructor}}</li>
                             </ul>
                             <a class="btn bnt-primary btn-course" href="course_lessons.html">Continuar aprendiendo</a>
 

@@ -43,7 +43,54 @@ def courses_list(request):
 
 
 def course_detail(request, name:str = ""):
-    return render(request, 'courses/course_detail.html')
+    # Pasamos un curso ficticio que definimos en duro su informacion, pero en un entorno
+    # real se van a buscar los datos del curso solicitado a la base de datos y los datos o campos
+    # obtenidos se pasan al template encargado de mostrar los detalles de un curso cuando se selecciona
+    
+    # Aqui definimos mas campos que podria tener el curso, donde le damos una estructura a esos datos
+    # con diccionario, representanto una estructura de documentos como en mongodb
+    course={
+        'course_title': "Django Aplicaciones Web Robustas",
+        'course_link': '',
+        'course_info': {
+            'lessons': 100,
+            'duration': 54,
+            'instructor': 'Daniel Valdebenito'
+            },
+        'course_content': [
+            {
+                'id': 1,
+                'name': 'Introduccion al curso',
+                'lessons': [
+                    {
+                        'name': '¿Que aprenderas en este curso?',
+                        'type': 'video' 
+                    },
+                    {
+                        'name': 'Como usar la plataforma',
+                        'type': 'file'
+                    }
+                ]
+            },
+            {
+                'id': 2,
+                'name': 'Introduccion al curso',
+                'lessons': [
+                    {
+                        'name': '¿Que aprenderas en este curso?',
+                        'type': 'video' 
+                    },
+                    {
+                        'name': 'Como usar la plataforma',
+                        'type': 'file'
+                    }
+                ]
+            }
+        ]
+    }
+    
+    
+    return render(request, 'courses/course_detail.html', {'course': course})
 
 
 

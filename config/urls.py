@@ -6,6 +6,6 @@ urlpatterns = [
     # Ruta principal para incluir y acceder a todas las urls de la app courses
     path('courses/', include('apps.courses.urls')),
     # Rutas principales para acceder a las urls de las demas aplicaciones
-    path('profiles/', include('apps.profiles.urls')),
+    path('profile/', include('apps.profiles.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
 ]

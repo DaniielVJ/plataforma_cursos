@@ -51,11 +51,13 @@ def course_detail(request, name:str = ""):
     # con diccionario, representanto una estructura de documentos como en mongodb
     course={
         'course_title': "Django Aplicaciones Web Robustas",
-        'course_link': '',
+        'course_link': 'course_lessons',
+        'course_img': 'images/curso_2.jpg',
         'course_info': {
             'lessons': 100,
             'duration': 54,
-            'instructor': 'Daniel Valdebenito'
+            'instructor': 'Daniel Valdebenito',
+            'instructor_img': 'https://randomuser.me/api/portraits/men/15.jpg',
             },
         'course_content': [
             {
@@ -68,7 +70,7 @@ def course_detail(request, name:str = ""):
                     },
                     {
                         'name': 'Como usar la plataforma',
-                        'type': 'file'
+                        'type': 'article'
                     }
                 ]
             },
@@ -82,7 +84,7 @@ def course_detail(request, name:str = ""):
                     },
                     {
                         'name': 'Como usar la plataforma',
-                        'type': 'file'
+                        'type': 'article'
                     }
                 ]
             }
@@ -95,4 +97,4 @@ def course_detail(request, name:str = ""):
 
 
 def course_lessons(request):
-    pass
+    return render(request, 'courses/course_lessons.html')

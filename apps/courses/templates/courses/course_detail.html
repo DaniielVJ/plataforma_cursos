@@ -2,13 +2,12 @@
 {% load static %}
 
 
-{% block title %}Detalle Curso{% endblock title %}
+{% block title %}Detalle Curso {{course.course_title | title}}{% endblock title %}
 
 
 
 {% block custom_styles %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
 {% endblock custom_styles %}
 
 

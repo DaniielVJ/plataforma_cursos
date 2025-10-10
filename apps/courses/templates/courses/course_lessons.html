@@ -1,10 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}    
+
+{% block title %} Lecciones {% endblock title %}
+
+{% block custom_styles %}
+    <link rel="stylesheet" href="{% static 'css/lessons.css' %}">
+{% endblock custom_styles %}
+
+
+
+
+
+{% block content %}
+
     <!-- HEADER SUPERIOR -->
     <header class="topbar">
         <div class="acciones">
             <div class="back-link"> <button class="discusiones">← Ve al panel de control</button></div>
-
         </div>
-        <div class="logo"><img src="./images/devilearn.png" alt="Logo devilearn"></div>
+        <div class="logo"><img src="{% static 'images/devilearn.png' %}" alt="Logo devilearn"></div>
     </header>
 
     <!-- LAYOUT PRINCIPAL -->
@@ -63,4 +77,12 @@
         </main>
     </div>
 
-    <script src="./js/multimedia.js"></script>
+
+{% endblock content %}
+
+
+
+{% block scripts %}
+    <script src="{% static 'js/multimedia.js' %}"></script>
+{% endblock scripts %}
+    

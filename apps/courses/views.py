@@ -48,7 +48,11 @@ def course_detail(request, name:str = ""):
     # obtenidos se pasan al template encargado de mostrar los detalles de un curso cuando se selecciona
     
     # Aqui definimos mas campos que podria tener el curso, donde le damos una estructura a esos datos
-    # con diccionario, representanto una estructura de documentos como en mongodb
+    # con diccionarios, representanto una estructura de documentos como en mongodb
+    
+    # Segun el curso que el usuario consulte y envie por la url, cargaremos sus datos en el template
+    # diseñado para mostrar los detalles de cualquier curso.
+    
     course={
         'course_title': "Django Aplicaciones Web Robustas",
         'course_link': 'course_lessons',
@@ -74,20 +78,6 @@ def course_detail(request, name:str = ""):
                     }
                 ]
             },
-            {
-                'id': 2,
-                'name': 'Introduccion al curso',
-                'lessons': [
-                    {
-                        'name': '¿Que aprenderas en este curso?',
-                        'type': 'video' 
-                    },
-                    {
-                        'name': 'Como usar la plataforma',
-                        'type': 'article'
-                    }
-                ]
-            }
         ]
     }
     
@@ -97,4 +87,37 @@ def course_detail(request, name:str = ""):
 
 
 def course_lessons(request):
-    return render(request, 'courses/course_lessons.html')
+    lessons = {
+    'course_title': "Django Aplicaciones Web Robustas",
+    'progress': 44,
+    'course_img': 'images/curso_2.jpg',
+    'course_content': [
+        {
+            'id': 1,
+            'name': 'Introduccion al curso',
+            'total_lessons': 4,
+            'complete_lessons': 1,
+            'lessons': [
+                {
+                    'name': '¿Que aprenderas en este curso?',
+                    'type': 'video' 
+                },
+                {
+                    'name': 'Como usar la plataforma',
+                    'type': 'article'
+                },
+                {
+                    'name': 'Introduccion a django',
+                    'type': 'video'
+                },
+                {
+                    'name': 'Instalar django y crear nuestro primer proyecto',
+                    'type': 'video'
+                }
+            ]
+        },
+    ]
+    }
+    
+    
+    return render(request, 'courses/course_lessons.html', {'lessons': lessons})

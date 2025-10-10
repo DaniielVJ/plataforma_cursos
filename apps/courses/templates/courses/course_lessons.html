@@ -13,6 +13,9 @@
 
 {% block content %}
 
+    {{lessons}}
+
+
     <!-- HEADER SUPERIOR -->
     <header class="topbar">
         <div class="acciones">
@@ -27,8 +30,8 @@
         <aside class="sidebar">
 
 
-            <h1 class="course-title">Django: Crea aplicaciones web robustas con Python</h1>
-            <p class="progress">0% completado</p>
+            <h1 class="course-title">{{lessons.course_title}}</h1>
+            <p class="progress">{{lessons.progress}}% completado</p>
 
 
             <input class="lesson-search" placeholder="Buscar...">
@@ -37,26 +40,22 @@
 
             <!-- SECCIONES -->
             <div class="accordion">
-                <div class="accordion-item">
-                    <button class="accordion-header">Sección 1: Introducción al curso <span>0 / 6</span></button>
-                    <div class="accordion-content">
-                        <ul>
-                            <li>Bienvenida</li>
-                            <li>¿Qué aprenderás?</li>
-                            <li>Requisitos del curso</li>
-                        </ul>
+
+                
+                {% for section in lessons.course_content  %}
+                    <div class="accordion-item">
+                        <button class="accordion-header">Sección {{section.id}}: {{section.name}}<span>{{section.complete_lessons}} / {{section.total_lessons}}</span></button>
+                        <div class="accordion-content">
+                            <ul>
+                               
+                               {% for lesson in section.lessons %}
+                                    <li><a href="{% url 'course_lessons'  %}">{{lesson.name}}</a></li>
+                               {% endfor %}
+                                
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">Sección 2: Fundamentos necesarios de Python <span>0 /
-                            27</span></button>
-                    <div class="accordion-content">
-                        <ul>
-                            <li>Variables</li>
-                            <li>Condicionales</li>
-                        </ul>
-                    </div>
-                </div>
+                {% endfor %}
                 <!-- Agrega más secciones si deseas -->
             </div>
         </aside>

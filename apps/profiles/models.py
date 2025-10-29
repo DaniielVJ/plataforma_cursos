@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+
+# Mandamos a llamar nuestros modelos - Ya que este el archivo que django lee para cargar los modelos
+# y hacer seguimiento
+
+

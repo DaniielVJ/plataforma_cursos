@@ -131,4 +131,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Indicamos que el model users que debe usar el sistema es el nuestro
-AUTH_USER_MODEL='apps.profiles.User'
+AUTH_USER_MODEL='profiles.User' # Al estar instalada la app como apps.profile django ya sabe
+# que profile es una app y sabe donde buscarla y no es necesario indicar el nombre del archivo
+# donde esta el modelo pq automaticamente ira a su archivo models.py e imporatara todo lo
+# definido de ahi, como estamos importando los modelos en models.py los cargara django
+# y si ve que heredan de Model entonces generara migraciones y les hara seguimiento a cambios.

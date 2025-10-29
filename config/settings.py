@@ -136,3 +136,4 @@ AUTH_USER_MODEL='profiles.User' # Al estar instalada la app como apps.profile dj
 # donde esta el modelo pq automaticamente ira a su archivo models.py e imporatara todo lo
 # definido de ahi, como estamos importando los modelos en models.py los cargara django
 # y si ve que heredan de Model entonces generara migraciones y les hara seguimiento a cambios.
+

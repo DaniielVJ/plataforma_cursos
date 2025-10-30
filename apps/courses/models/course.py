@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from .category import Category
+from .enrollment import Enrollment
 
 
 # Modelo que almacena cada curso que tendra el sistema
@@ -12,6 +13,8 @@ class Course(models.Model):
     overview = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField(Category, related_name="courses", through="CourseCategory")
+    # Para acceder a los cursos que es propietario el usuario usara owned_courses y los que no es propietario courses
+    students = models.ManyToManyField(settings.AUTH_USER_MODEL, through=Enrollment, related_name='courses')
     
     class Meta:
         ordering = ('-create_at', )

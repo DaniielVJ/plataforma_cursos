@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 from .category import Category
-from .enrollment import Enrollment
 
 
 # Modelo que almacena cada curso que tendra el sistema
@@ -14,7 +13,9 @@ class Course(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField(Category, related_name="courses", through="CourseCategory")
     # Para acceder a los cursos que es propietario el usuario usara owned_courses y los que no es propietario courses
-    students = models.ManyToManyField(settings.AUTH_USER_MODEL, through=Enrollment, related_name='courses')
+    # students = models.ManyToManyField(settings.AUTH_USER_MODEL, through=Enrollment, related_name='courses')
+    # ESTO PARA QUE FUNCIONE HAY QUE USAR STRING O DEFINIR LA TABLA INTERMEDIA EN EL MISMO ARCHIVO
+    
     
     class Meta:
         ordering = ('-create_at', )
@@ -22,6 +23,7 @@ class Course(models.Model):
     def __str__(self):
         return self.title
     
+   
    
 # En este caso  la relacion muchos a muchos no tiene campos adicionales asi que no habria justificacion de que
 # nosotros creemos la tabla intermedia, podria crearla django, pero si deseamos personalizarla para el django admin

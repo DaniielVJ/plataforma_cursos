@@ -6,5 +6,9 @@ from .course import Course
 class Section(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='sections')
     title = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True)  
+    
+    
+    def __str__(self):
+        return f"{self.course} --> {self.title}"
     

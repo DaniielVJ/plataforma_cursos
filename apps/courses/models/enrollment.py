@@ -8,7 +8,7 @@ from .course import Course
 # la fecha en que el estudiante se inscribio en el curso
 class Enrollment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enrollments")
     enrollment_at = models.DateTimeField(auto_now_add=True)
     
     

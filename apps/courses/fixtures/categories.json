@@ -1,0 +1,89 @@
+[
+{
+  "model": "courses.category",
+  "pk": 2,
+  "fields": {
+    "name": "Tecnologia",
+    "slug": "tecnologia"
+  }
+},
+{
+  "model": "courses.category",
+  "pk": 3,
+  "fields": {
+    "name": "Web Development",
+    "slug": "web-development"
+  }
+},
+{
+  "model": "courses.category",
+  "pk": 4,
+  "fields": {
+    "name": "Software Development",
+    "slug": "software-development"
+  }
+},
+{
+  "model": "courses.category",
+  "pk": 5,
+  "fields": {
+    "name": "Python",
+    "slug": "python"
+  }
+},
+{
+  "model": "courses.category",
+  "pk": 6,
+  "fields": {
+    "name": "Golang",
+    "slug": "golang"
+  }
+},
+{
+  "model": "courses.category",
+  "pk": 7,
+  "fields": {
+    "name": "Django",
+    "slug": "django"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "owner": 1,
+    "title": "sadfadsf",
+    "slug": "asdfadsf",
+    "overview": "adfadsfadsfdasf",
+    "create_at": "2025-10-30T22:38:32.190Z"
+  }
+},
+{
+  "model": "courses.coursecategory",
+  "pk": 1,
+  "fields": {
+    "course": 1,
+    "category": 2
+  }
+},
+{
+  "model": "courses.enrollment",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "course": 1,
+    "enrollment_at": "2025-10-31T00:28:15.746Z"
+  }
+},
+{
+  "model": "courses.progress",
+  "pk": 1,
+  "fields": {
+    "course": 1,
+    "user": 1,
+    "status": "En curso",
+    "update_at": "2025-10-31T00:43:29.108Z",
+    "progress": 5.0
+  }
+}
+]

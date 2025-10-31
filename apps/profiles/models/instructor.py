@@ -5,7 +5,8 @@ from django.conf import settings
 
 # Modelo que utilizamos para almacenar datos adicionales de los Usuarios si fuesen 
 # un instructor
-class Instructor(models.Model):
+class InstructorProfile(models.Model):
+    # Campo permite asociar un perfil de instructor a un usuario y asi aparte de ser un usuario tener perfil de instructor
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='instructor')
     # blank - opcional para el usuario agregar eso en el formulario
     bio = models.TextField(blank=True)

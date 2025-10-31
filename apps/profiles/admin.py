@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import User, Instructor
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .models import User, InstructorProfile
 
 
 # permite registrar el modelo y ademas decorar una clase para que funciona como la personalizacion del modelo registrado
@@ -21,14 +21,17 @@ class UserAdmin(BaseUserAdmin):
     list_display = BaseUserAdmin.list_display + ('is_instructor',)
     
     
+
+# Una clase modelAdmin aplica estas personalizaciones a cualquier modelo que se la asociemos en el django admin
+# Pero se suele crear una por Modelo en especifico, porque podriamos listar campos que otro modelo no tiene, etc.
+# entonces por convencion la clase tiene el nombre del modelo al cual administra en el admin.
+class InstructorAdmin(admin.ModelAdmin):
+    list_display = ('user', 'user__last_login')
     
 
 
 
 
-
-
-
-admin.site.register(Instructor)
+admin.site.register(InstructorProfile, InstructorAdmin)
 
  

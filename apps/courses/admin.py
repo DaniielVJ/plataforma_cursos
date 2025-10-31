@@ -3,6 +3,7 @@ from .models import (Category, Course, CourseCategory,
                      Enrollment, Progress, Review, Section)
 
 
+
 # Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -66,6 +67,4 @@ class ReviewAdmin(admin.ModelAdmin):
     list_filter = ('rating', 'created_at')
     search_fields = ('user__username', 'course__title')
     
-
-
 

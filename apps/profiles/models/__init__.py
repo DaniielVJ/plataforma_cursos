@@ -3,7 +3,7 @@
 
 from .user import User
 # PRIMERO CARGA USER Y LUEGO INSTRUCTOR PORQUE INSTRUCTOR DEPENDE DE USER
-from .instructor import Instructor
+from .instructor import InstructorProfile
 
 
 

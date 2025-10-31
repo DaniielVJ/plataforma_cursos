@@ -9,3 +9,4 @@ urlpatterns = [
     path('profile/', include('apps.profiles.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
 ]
+

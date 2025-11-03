@@ -6,7 +6,7 @@ class ProfilesConfig(AppConfig):
     name = 'apps.profiles'
 
 
-    # Se ejecuta cuando django termina de cargar la app y esta lista o ready
+    # Se ejecuta cuando django termina de cargar la app y esta lista para funcionar o ready
     def ready(self):
         # Cargamos o ejecutamos los signals de la app
         import apps.profiles.signals

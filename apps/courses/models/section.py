@@ -1,7 +1,7 @@
 from django.db import models
 from .course import Course
 # nuestro propio campo
-from apps.courses.fields import OrderField
+from ..fields import OrderField
 
 
 # Modelo para almacenar las secciones que tendra cada curso
@@ -10,7 +10,8 @@ class Section(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     # Define que orden tiene dentro de un grupo cada objeto de este modelo
-    order = OrderField(['course'])
+    order = OrderField(('course', ), blank=True)
+    
     
     def __str__(self):
         return f"{self.course} --> {self.title}"

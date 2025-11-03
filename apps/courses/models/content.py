@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.conf import settings
 from .section import Section
-from apps.courses.fields import OrderField
+from ..fields import OrderField
 
 # Modelo padre para nuestro modelo polimorfico.
 class ItemBase(models.Model):
@@ -36,7 +36,7 @@ class File(ItemBase):
 
 
 class Image(ItemBase):
-    file = models.FileField(upload_to='images/')
+    image = models.FileField(upload_to='images/')
 
 
 class Video(ItemBase):
@@ -56,7 +56,7 @@ class Content(models.Model):
     # Item es el campo que realmente almacenara el contenido de cada registro content, la imagen, articulo, video, etc.
     # Entonces este campo permite asociar ese item o recurso a un tipo de contenido que es.
     item = GenericForeignKey('content_type', 'object_id')
-    order = OrderField(['section'])
+    order = OrderField(['section'], blank=True)
     
     
 

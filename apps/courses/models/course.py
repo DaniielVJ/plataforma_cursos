@@ -1,14 +1,14 @@
 from django.db import models
 from django.conf import settings
 from .category import Category
-
+from ..fields import AutomaticSlugField
 
 # Modelo que almacena cada curso que tendra el sistema
 class Course(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="owned_courses")
     title = models.CharField(max_length=200)
     # Nombre propio que tendra cada curso para ser buscado por la url
-    slug = models.SlugField(unique=True)
+    slug = AutomaticSlugField(fields=['title'])
     overview = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField(Category, related_name="courses", through="CourseCategory")
@@ -18,6 +18,8 @@ class Course(models.Model):
     
     
     class Meta:
+        # ordering en el modelo, es para definir en que orden seran devueltos los objetos de este modelo
+        # al consultarlos.
         ordering = ('-create_at', )
          
     def __str__(self):

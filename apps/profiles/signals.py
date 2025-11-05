@@ -21,6 +21,11 @@ def create_instructor_profile(sender, instance, created, **kwargs):
     # 1: sender o modelo que envio la señal
     # 2: El objeto o instancia del modelo que origino la señal
     if instance.is_instructor:
+        # Usamos este metodo, para que no hayan errores, ya que ser relacion one to one el campo que asocia
+        # un objeto instructorprofile a uno de user, es unique. Entonces cada vez que actualicemos un usuario
+        # del model user que ya tiene un perfil de instructor, dara un error si se trata de crear un nuevo perfil
+        # para un user que ya tiene uno. por eso con get_or_create solo lo creamos si no existe un perfil para ese usuario
+        # si existe que lo traiga y asi no generamos errores, a pesar que no lo usemos en este receptor.
         InstructorProfile.objects.get_or_create(user=instance)
     else:
         InstructorProfile.objects.filter(user=instance).delete()

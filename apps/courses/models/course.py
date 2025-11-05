@@ -8,13 +8,18 @@ class Course(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="owned_courses")
     title = models.CharField(max_length=200)
     # Nombre propio que tendra cada curso para ser buscado por la url
-    slug = AutomaticSlugField(fields=['title'])
+    slug = AutomaticSlugField(fields=['title'], unique=True)
     overview = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField(Category, related_name="courses", through="CourseCategory")
     # Para acceder a los cursos que es propietario el usuario usara owned_courses y los que no es propietario courses
     # students = models.ManyToManyField(settings.AUTH_USER_MODEL, through=Enrollment, related_name='courses')
     # ESTO PARA QUE FUNCIONE HAY QUE USAR STRING O DEFINIR LA TABLA INTERMEDIA EN EL MISMO ARCHIVO
+    
+    level = models.CharField(max_length=50)
+    image = models.FileField(upload_to="courses/portadas")
+    rating = models.FloatField(default=0.0)
+    content_duration = models.FloatField(default=0.0)
     
     
     class Meta:

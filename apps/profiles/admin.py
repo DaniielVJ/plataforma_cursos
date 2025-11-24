@@ -1,6 +1,20 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, InstructorProfile
+from apps.courses.models import Course
+
+
+# Es crear un formulario de un modelo, para incrustarlo en el formulario
+# de objeto de otro modelo.
+class InstructorProfileInline(admin.StackedInline):
+    model = InstructorProfile
+    extra = 0
+
+
+class CourseInline(admin.TabularInline):
+    model = Course
+    extra = 1
+
 
 
 # permite registrar el modelo y ademas decorar una clase para que funciona como la personalizacion del modelo registrado
@@ -8,18 +22,17 @@ from .models import User, InstructorProfile
 class UserAdmin(BaseUserAdmin):
     # Reutilizamos las configuraciones del admin del usuario de django para nuestro usuario que extiende de el
     
-    # Aqui decimos que use los fieldset que tenia para los campos del modelo User de django + fieldset
-    # para los campos nuevos que le agregamos. Estos los muestra cuando abrimos el formulario de un objeto que ya esta
-    # registrado en el modelo
+    # fieldsets, este atributo es para añadir fieldsets al formulario de modificar un objeto existente del modelo
     fieldsets = BaseUserAdmin.fieldsets + (('Rol personalizado', {'fields': ('is_instructor',)}), )
     
-    # Este permite añadir los campos al formulario para añadir un nuevo objeto del Modelo    
+    # Este es para añadir fieldsets al formulario de añadir un nuevo objeto en un modelo   
     add_fieldsets = BaseUserAdmin.add_fieldsets + (
         (None, {"fields": ('is_instructor', )}),
     )
 
     list_display = BaseUserAdmin.list_display + ('is_instructor',)
     
+    inlines = BaseUserAdmin.inlines + (InstructorProfileInline, CourseInline)
     
 
 # Una clase modelAdmin aplica estas personalizaciones a cualquier modelo que se la asociemos en el django admin

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (Category, Course, CourseCategory, 
-                     Enrollment, Progress, Review, Section)
+                     Enrollment, Progress, Review, Section, 
+                     File, Video, Text, Image, Content)
 
 
 
@@ -67,4 +68,14 @@ class ReviewAdmin(admin.ModelAdmin):
     list_filter = ('rating', 'created_at')
     search_fields = ('user__username', 'course__title')
     
+@admin.register(Content)
+class ContentAdmin(admin.ModelAdmin):
+    list_display = ('section__course__title', 'section__title', 'item', 'section__course__owner__username')
+    list_filter = ('section', )
 
+
+
+admin.site.register(Video)
+admin.site.register(File)
+admin.site.register(Image)
+admin.site.register(Text)

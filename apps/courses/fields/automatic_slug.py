@@ -34,7 +34,9 @@ class AutomaticSlugField(models.SlugField):
                 raise IntegrityError("EL VALOR DEBE SER UNICO ESE SLUG EXISTE")
             
             setattr(model_instance, self.attname, slug)
-            return slug            
+            return slug
+            
+
         return super().pre_save(model_instance, add)
 
 

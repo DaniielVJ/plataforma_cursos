@@ -137,3 +137,9 @@ AUTH_USER_MODEL='profiles.User' # Al estar instalada la app como apps.profile dj
 # definido de ahi, como estamos importando los modelos en models.py los cargara django
 # y si ve que heredan de Model entonces generara migraciones y les hara seguimiento a cambios.
 
+
+# Configuraciones que le indican al servidor a que urls debe redirigir
+LOGIN_REDIRECT_URL = 'dashboard_index'
+LOGOUT_REDIRECT_URL = 'login'
+
+LOGIN_URL = 'login'

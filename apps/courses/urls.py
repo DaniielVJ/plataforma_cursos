@@ -5,8 +5,8 @@ from . import views
 # Por recomendacion, darle como nombre a la ruta el mismo de la vista
 urlpatterns = [
     path('', views.courses_list, name='courses_list'), # /courses -> listar los cursos
-    path('detail/<str:name>', views.course_detail, name='course_detail'), # mostrar detalles del curso
-    path('lessons/', views.course_lessons, name='course_lessons') # url para mostrar la leccion del curso seleccionada
+    path('detail/<str:slug>', views.course_detail, name='course_detail'), # mostrar detalles del curso
+    path('<str:slug>/lessons/', views.course_lessons, name='course_lessons') # url para mostrar la leccion del curso seleccionada
 ]
 
 

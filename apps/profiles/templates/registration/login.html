@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block custom_styles %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock custom_styles %}
+    
+
+
+{% block content %}
+<div class="login-container">
+    
+    
+    <img src="{% static 'images/devilearn.png' %}" alt="Logo">
+    <h2 class="login-title">Iniciar Sesion</h2>
+    <form method="POST" class="login-form">
+        {% csrf_token %}
+        <!--Campo para que el usuario ingrese su username-->
+        <div class="form-group">
+            <!--El label del campo-->
+            {{form.username.label_tag}}
+            <!--Aqui accedemos al campo, el input y se renderiza-->
+            {{form.username}}
+        </div>
+        <!--Campo para que el usuario ingrese su contraseña-->
+        <div class="form-group">
+            {{form.password.label_tag}}
+            {{form.password}}
+        </div>
+
+        <!--Campo para que el usuario pueda enviar sus credenciales a la View de autenticacion-->
+        <div>
+            <button class="btn-submit" type="submit">Enviar</button>
+        </div>
+    </form>
+
+</div>
+{% endblock content %}
+    

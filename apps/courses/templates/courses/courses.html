@@ -33,18 +33,16 @@
 
 
                 <div class="carousel-wrapper">
-                    <div class="course-grid">
-                        <div class="course-grid">
-                            <!-- Card 1 -->
+                    <div class="course-grid"><!-- Card 1 -->
                          <!--Aqui añadimos que cuando se haga click en cualquier elemento que esta dentro del enlace
                             vamos a ejecutar la url course_detail, que se encargara de devolver el html con el detalle
                             del curso clickeado-->
  
                             
-                            {% for course in courses%} <!--Creamos un curso en el html, por cada curso de la lista traida de la base de datos-->
+                            {% for course in page_courses%} <!--Creamos un curso en el html, por cada curso de la lista traida de la base de datos-->
                                 <div class="course-card">
-                                    <a href="{% url 'course_detail' name=course.name %}">
-                                        <img src="{% static course.course_img %}" alt="Course Image" class="course-img" />
+                                    <a href="{% url 'course_detail' slug=course.slug %}">
+                                        <img src="{{course.image}}" alt="Course Image" class="course-img" />
                                         <div class="course-info">
                                             <div class="course-rating">
                                                 <span class="tag beginner">{{course.level | capfirst}}</span>
@@ -55,18 +53,38 @@
 
                                             <h3 class="course-title">{{course.title | title}}
                                             </h3>
-                                            <div class="author"><img src="{{course.author_img}}"
-                                                    alt=""><span>{{course.author}}</span></div>
+                                            <div class="author"><img src="{{course.owner.instructor.photo}}"
+                                                    alt=""><span>{{course.owner.get_full_name}}</span></div>
                                         </div>
                                     </a>
                                 </div>
+                            {% empty %}
+                            <h2>NO HAY CURSOS DISPONIBLES</h2>
                             {% endfor %}
                             <!--Cada curso sigue la misma estructura HTML, pero esta estructura html se genera
                             o se va agregando por cada curso que haya por iterar en courses y cada uno se añade
                             con la mimsa estructura pero con sus propios datos-->
-
-
-                        </div>
+                    
+                    
+                    </div>
+                    <div class="paginator">
+                        
+                        {% if page_courses.has_previous %}
+                            <a href="?page=1&{{query_params}}">Primera</a>
+                            <a href="?page={{page_courses.previous_page_number}}&{{query_params}}">Anterior</a>
+                        {% endif %}
+                        
+                        <span>Pagina {{page_courses.number}} de {{page_courses.paginator.num_pages}}</span>
+                        
+                        {% if page_courses.has_next %}
+                        <!--Manda un request a la misma url que devolvio este template, y manda un parametro page usando
+                        el metodo get que tiene como valor el numero de la pagina siguiente a esta por lo tanto el paginador
+                        devolvera la pagina siguiente, ademas para que no envie la pagina siguiente de todos los resultados
+                        si mando mas parametros con filtros, tambien los volvemos a mandar al hacer click aqui-->
+                            <a href="?page={{page_courses.next_page_number}}&{{query_params}}">Siguiente</a>
+                            <a href="?page={{page_courses.paginator.num_pages}}&{{query_params}}">Ultima</a>
+                        {%endif%}
+                    
                     </div>
                 </div>
 

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}    
 
-{% block title %} Lecciones {% endblock title %}
+{% block title %} Lecciones {{course_title}} {% endblock title %}
 
 {% block custom_styles %}
     <link rel="stylesheet" href="{% static 'css/lessons.css' %}">
@@ -30,7 +30,7 @@
         <aside class="sidebar">
 
 
-            <h1 class="course-title">{{lessons.course_title}}</h1>
+            <h1 class="course-title">{{course_title}}</h1>
             <p class="progress">{{lessons.progress}}% completado</p>
 
 
@@ -42,14 +42,15 @@
             <div class="accordion">
 
                 
-                {% for section in lessons.course_content  %}
+                {% for section in sections  %}
                     <div class="accordion-item">
-                        <button class="accordion-header">Sección {{section.id}}: {{section.name}}<span>{{section.complete_lessons}} / {{section.total_lessons}}</span></button>
+                        <button class="accordion-header">Sección {{section.order | add:1}}: {{section.title}}
+                            <span>{{section.complete_lessons}} / {{section.total_lessons}}</span></button>
                         <div class="accordion-content">
                             <ul>
                                
-                               {% for lesson in section.lessons %}
-                                    <li><a href="{% url 'course_lessons'  %}">{{lesson.name}}</a></li>
+                               {% for content in section.contents.all %}
+                                    <li><a href="">{{content.item.title}}</a></li>
                                {% endfor %}
                                 
                             </ul>

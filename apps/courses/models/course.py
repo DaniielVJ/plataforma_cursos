@@ -26,12 +26,22 @@ class Course(models.Model):
         # ordering en el modelo, es para definir en que orden seran devueltos los objetos de este modelo
         # al consultarlos.
         ordering = ('-create_at', )
+        verbose_name_plural = "Courses"
          
     def __str__(self):
         return self.title
-    
-   
-   
+
+    def calculate_total_lessons(self):
+        from .section import Section
+        sections = Section.objects.prefetch_related("contents").filter(course=self)
+        # return sum(1 for section in sections 
+        #                 for content in section.contents.all())
+        return sum(section.contents.count() for section in sections)
+
+    def calculate_total_lessons2(self):
+        from .content import Content
+        return Content.objects.filter(section__course=self).count()
+
 # En este caso  la relacion muchos a muchos no tiene campos adicionales asi que no habria justificacion de que
 # nosotros creemos la tabla intermedia, podria crearla django, pero si deseamos personalizarla para el django admin
 # debemos crearla manualmente.

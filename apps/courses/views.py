@@ -1,123 +1,58 @@
-from django.shortcuts import render
-
-# Create your views here.
-
-# Datos ficticios para simular una base de datos
-
-courses= [ # doomy data
-    {
-        "id": 1, "name": "python", "level": "beginner", "rating": 5.0, 
-        "title": "Three-month Course to Learn the Basics of Python and StartCoding.",
-        "author": "Alison Walsh JIIJIIJIJIJIJIJIJI", "course_img": "images/curso_1.jpg", 
-        "author_img": 'https://randomuser.me/api/portraits/women/68.jpg',
-     },
-    {
-        "id": 2, "name": "django", "level": "beginner", "rating": 4.1, 
-        "title": "Beginner's Guide to Successful Company Management: Business And More",
-        "author": "Patty Kutch", "course_img": "images/curso_2.jpg", 
-        "author_img": 'https://randomuser.me/api/portraits/women/20.jpg',
-    },
-    {
-        "id": 2, "name": "django_avanzado" , "level": "advanced", "rating": 4.7, 
-        "title": "A Fascinating Theory of Probability. Practice. Application. How to Outplay...",
-        "author": "Alonzo Murray", "course_img": "images/curso_3.jpg", 
-        "author_img": 'https://randomuser.me/api/portraits/men/32.jpg', 
-    },
-    {
-        "id": 2, "name": "fastapi_avanzado" , "level": "advanced", "rating": 4.9, 
-        "title": "Introduction: Machine Learning and LLM. Implementation in Modern Software",
-        "author": "Gregory Harris", "course_img": "images/curso_4.jpg", 
-        "author_img": 'https://randomuser.me/api/portraits/men/45.jpg',
-    }
-    
-]
-
+# shortchut que ahorra el hacer un 404 si el objeto a buscar no existe
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
+from django.core.paginator import Paginator
+from .models import Course
 
 def courses_list(request):
-    # Version para probar antes de irme
-    # return render(request, 'courses/courses.html', {'course': courses[0]})
+
+    courses = Course.objects.select_related('owner')
+
+    query = request.GET.get('query')
+    page_number = request.GET.get('page')
+
+    if query:
+        courses = courses.filter(
+            Q(title__icontains=query) | Q(owner__first_name__icontains=query) | Q(owner__last_name__icontains=query)
+            )
 
 
-    # Original a usar luego
-    return render(request, 'courses/courses.html', {'courses': courses})
+    # Paginador se implementa siempre despues de haber aplicado todos los filtros
+    # ya que queremos dividir en paginas los resultados a mostrar
+    paginator = Paginator(courses, 8)
+    page_courses = paginator.get_page(page_number)
+
+    query_params = request.GET.copy()
+    
+    if 'page' in query_params:
+        query_params.pop('page')
+
+    query_params = query_params.urlencode()
+    
+    return render(request, 'courses/courses.html', {'page_courses': page_courses, 'query': query,  'query_params': query_params})
 
 
-def course_detail(request, name:str = ""):
-    # Pasamos un curso ficticio que definimos en duro su informacion, pero en un entorno
-    # real se van a buscar los datos del curso solicitado a la base de datos y los datos o campos
-    # obtenidos se pasan al template encargado de mostrar los detalles de un curso cuando se selecciona
+def course_detail(request, slug):
     
-    # Aqui definimos mas campos que podria tener el curso, donde le damos una estructura a esos datos
-    # con diccionarios, representanto una estructura de documentos como en mongodb
-    
-    # Segun el curso que el usuario consulte y envie por la url, cargaremos sus datos en el template
-    # diseñado para mostrar los detalles de cualquier curso.
-    
-    course={
-        'course_title': "Django Aplicaciones Web Robustas",
-        'course_link': 'course_lessons',
-        'course_img': 'images/curso_2.jpg',
-        'course_info': {
-            'lessons': 100,
-            'duration': 54,
-            'instructor': 'Daniel Valdebenito',
-            'instructor_img': 'https://randomuser.me/api/portraits/men/15.jpg',
-            },
-        'course_content': [
-            {
-                'id': 1,
-                'name': 'Introduccion al curso',
-                'lessons': [
-                    {
-                        'name': '¿Que aprenderas en este curso?',
-                        'type': 'video' 
-                    },
-                    {
-                        'name': 'Como usar la plataforma',
-                        'type': 'article'
-                    }
-                ]
-            },
-        ]
-    }
-    
-    
+    # debemos pasar el modelo del cual queremos obtener el unico objeto y el filtro para obtener el objeto
+    # es decir que traiga el curso que su campo slug sea igual al slug enviado por el request en el path o url.
+    # course = get_object_or_404(Course, slug=slug) # forma normal
+
+    # Optimizada
+    course = get_object_or_404(Course.objects
+                             .select_related("owner__instructor")
+                             .prefetch_related("sections__contents"), 
+                             slug=slug)
+
+    course.image = ""
+
     return render(request, 'courses/course_detail.html', {'course': course})
 
 
+def course_lessons(request, slug):
+    course = get_object_or_404(Course, slug=slug)
+    course_title = course.title
+    sections = course.sections.prefetch_related('contents')
+    
+    return render(request, 'courses/course_lessons.html', {'course_title': course_title, 'sections': sections })
 
-def course_lessons(request):
-    lessons = {
-    'course_title': "Django Aplicaciones Web Robustas",
-    'progress': 44,
-    'course_img': 'images/curso_2.jpg',
-    'course_content': [
-        {
-            'id': 1,
-            'name': 'Introduccion al curso',
-            'total_lessons': 4,
-            'complete_lessons': 1,
-            'lessons': [
-                {
-                    'name': '¿Que aprenderas en este curso?',
-                    'type': 'video' 
-                },
-                {
-                    'name': 'Como usar la plataforma',
-                    'type': 'article'
-                },
-                {
-                    'name': 'Introduccion a django',
-                    'type': 'video'
-                },
-                {
-                    'name': 'Instalar django y crear nuestro primer proyecto',
-                    'type': 'video'
-                }
-            ]
-        },
-    ]
-    }
-    
-    
-    return render(request, 'courses/course_lessons.html', {'lessons': lessons})

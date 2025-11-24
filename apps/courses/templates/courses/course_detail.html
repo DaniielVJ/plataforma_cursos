@@ -2,7 +2,7 @@
 {% load static %}
 
 
-{% block title %}Detalle Curso {{course.course_title | title}}{% endblock title %}
+{% block title %}{{course.title | capfirst}}{% endblock title %}
 
 
 
@@ -37,20 +37,28 @@
                     <div class="course-sections">
                         <h2>Contenido del curso</h2>
                         <div class="accordion">
-                            {% for section in course.course_content %}
+                            {% for section in course.sections.all %}
                             <!--Por cada seccion que tenga el curso creamos un item en el accodiom-->
                                 <div class="accordion-item">
-                                    <button class="accordion-header">Sección {{section.id}}: {{section.name}}</button>
+                                    <button class="accordion-header">Sección {{section.order | add:1}}: {{section.title}}</button>
                                     <div class="accordion-content">
                                         <ul>
-                                            {% for lesson in section.lessons %}
-                                                 <li><i class="fa-solid 
-                                                    {% if lesson.type == 'article' %}
-                                                        fa-file
-                                                    {% else %}
-                                                        fa-video
+                                            {% for content in section.contents.all %}
+                                                <li>
+                                                    
+                                                    {% if content.content_type.model == 'video' %}
+                                                         <i class="fa-solid fa-video"></i>
+                                                    {%elif content.content_type.model == 'file'%}
+                                                        <i class="fa-solid fa-file"></i>
+                                                    {%elif content.content_type.model == 'text'%}
+                                                        <i class="fa-solid fa-align-left"></i>
+                                                    {%elif content.content_type.model == 'image'%}
+                                                        <i class="fa-solid fa-image"></i>
                                                     {% endif %}
-                                                    "></i>{{lesson.name}}</li>
+                                                    {{content.item.title}}
+                                                </li> 
+                                            {%empty%}
+                                                <li><h3>No hay lecciones disponibles</h3></li>
                                             {% endfor %}
                                            <!-- <li><i class="fa-solid fa-file"></i>Cómo usar la plataforma</li>-->
                                         </ul>
@@ -63,18 +71,24 @@
                     <!-- Card lateral -->
                     <div class="course-info-card">
                         <div class="card-banner">
-                            <div class="tag">{ devilearn }</div>
-                            <img src="{% static course.course_img %}" alt="Curso Django" />
-                            <img class="author-avatar" src="{{course.course_info.instructor_img}}" alt="Autor">
+                            <div class="tag">{ {{course.level}} }</div>
+                            <img src="{%if course.image %}
+                                {{course.image}}
+                            {%else%}
+                                https://placehold.co/600x200/1e1e1e/ffffff?text={{course.title}}&font=Oswald
+                            {%endif%}
+                                " alt="Curso Django" />
+                            <img class="author-avatar" src="{{course.owner.instructor.photo}}" alt="Autor">
                         </div>
                         <div class="card-body">
+                            <h1>{{course.title}}</h1>
                             <h3>Acerca de este curso</h3>
                             <ul class="course-details">
-                                <li><i class="fa-solid fa-file"></i> {{course.course_info.lessons}} lecciones</li>
+                                <li><i class="fa-solid fa-file"></i> {{course.calculate_total_lessons2}} lecciones</li>
                                 <li><i class="fa-solid fa-video"></i> {{course.course_info.duration}} horas de contenido en video</li>
-                                <li><i class="fa-solid fa-graduation-cap"></i><b>Instructor:</b> {{course.course_info.instructor}}</li>
+                                <li><i class="fa-solid fa-graduation-cap"></i><b>Instructor:</b> {{course.owner.get_full_name}}</li>
                             </ul>
-                            <a class="btn bnt-primary btn-course" href="{% url course.course_link %}">Continuar aprendiendo</a>
+                            <a class="btn bnt-primary btn-course" href="{% url 'course_lessons' slug=course.slug %} ">Continuar aprendiendo</a>
                         </div>
                     </div>
                 </div>

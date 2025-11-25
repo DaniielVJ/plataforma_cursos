@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Añadir/Editar Curso{% endblock title %}
+{% load static %}
+
+
+{% block custom_styles %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/instructor.css' %}">
+{% endblock custom_styles %}
+    
+
+<!--Este formulario lo reutilizaremos para añadir un nuevo curso o actualizar un curso-->
+
+
+{% block content %}
+    <div class="layout">
+        {% include 'includes/sidebar_instructor.html' %}
+        <div class="main-content">
+            {% include 'includes/header_instructor.html' %}
+            
+            <main>
+                <!--Si la instancia que maneja el formulario tiene un pk, significa que ya fue almacenada previamente
+                en la base de datos, lo cual nos da como indicio, que si eso ocurre es porque se esta actualizando 
+                no creando-->
+                <h2 class="form-title">{{form.instance.pk|yesno:"Editar Curso,Crear Curso"}}</h2>
+                <form method="POST" >
+                    {% csrf_token %}
+                    
+                    {{form.as_p}}
+
+                    <div>
+                        <button class="btn btn-primary" type="submit">{{form.instance.pk|yesno:"Actualizar Curso,Añadir Curso"}}</button>
+                    </div>
+                </form>
+
+            </main>
+        </div>
+    </div>
+{% endblock content %}
+    

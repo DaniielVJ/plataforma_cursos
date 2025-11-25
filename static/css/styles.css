@@ -560,6 +560,7 @@ a.btn {
     font-weight: bold;
     cursor: pointer;
     align-self: flex-start;
+    
 }
 
 .submit-btn:hover {

@@ -17,7 +17,7 @@ class Course(models.Model):
     # ESTO PARA QUE FUNCIONE HAY QUE USAR STRING O DEFINIR LA TABLA INTERMEDIA EN EL MISMO ARCHIVO
     
     level = models.CharField(max_length=50)
-    image = models.FileField(upload_to="courses/portadas")
+    image = models.URLField()
     rating = models.FloatField(default=0.0)
     content_duration = models.FloatField(default=0.0)
     

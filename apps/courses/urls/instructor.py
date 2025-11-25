@@ -15,6 +15,9 @@ app_name = "instructor" # las urls de este archivo seran referenciadas con ese p
 # urls que exponen las funcionalidades
 urlpatterns = [
      path('courses/', instructor.CourseListView.as_view(), name='list_courses'),
+     path('course/create/', instructor.CourseCreateView.as_view(), name='create_course'),
+     path('course/<str:slug>/update/', instructor.CourseUpdateView.as_view(), name='update_course'),
+     path('course/<str:slug>/delete/', instructor.CourseDeleteView.as_view(), name="delete_course"),
 ]
 
 

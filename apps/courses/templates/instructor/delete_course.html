@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Confirmar Eliminacion{% endblock title %}
+{% load static %}
+
+
+{% block custom_styles %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/instructor.css' %}">
+{% endblock custom_styles %}
+
+
+
+
+{% block content %}
+    <div class="layout">
+        {% include 'includes/sidebar_instructor.html' %}
+        <div class="main-content">
+            {% include 'includes/header_instructor.html' %}
+            
+            <main>
+                <h2 style="text-align: center;" class="form-title">¿Seguro que desea eliminar el curso "{{course.title}}"?</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <a href="{% url 'instructor:list_courses' %}" class="btn">Cancelar</a>
+                    </div>
+                    <br>
+                    <div>
+                        <button type="submit" class="btn btn-danger">Confirmar</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+{% endblock content %}
+    

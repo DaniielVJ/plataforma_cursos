@@ -1,0 +1,53 @@
+<!--La view manda a este template despues de haber ejecutado toda su logica las secciones asociadas
+al curso que se envia por parametro en la url y ademas tambien se carga el curso-->
+
+{% extends 'base.html' %}
+{% block title %}Mis Cursos{% endblock title %}
+{% load static %}
+
+
+{% block custom_styles %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/instructor.css' %}">
+{% endblock custom_styles %}
+    
+
+
+
+{% block content %}
+    <div class="layout">
+        {% include 'includes/sidebar_instructor.html' %}
+        <div class="main-content">
+            {% include 'includes/header_instructor.html' %}
+            
+            <main>
+                <h2 class="form-title">Secciones del curso "{{course.title}}"</h2>
+                
+                <div class="add-new-course">
+                    <a href="{% url 'instructor:create_section' course_slug=course.slug%}">Añadir Seccion</a>
+                </div>
+
+                <ul class="drag-list" id="section_list">
+                    
+                    {% for section in sections %}
+                        <li class="drag-item" data-id="{{section.id}}">
+                            <strong>{{section.title}}</strong>
+                            <div class="actions">
+                                <a href="#"><i class="fa-solid fa-eye"></i>&#32;Ver contenidos</a>
+                                <a href="{% url 'instructor:update_section' course_slug=course.slug pk=section.id%}"><i class="fa-solid fa-pen-to-square"></i>&#32;Editar la Seccion</a>
+                                <a href="#"><i class="fa-solid fa-trash"></i>&#32;Eliminar la Seccion</a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li>No hay secciones disponibles.</li>
+                    {% endfor %}
+                        
+                </ul>
+            </main>
+
+        </div>
+    </div>
+{% endblock content %}
+    
+
+

@@ -18,6 +18,9 @@ urlpatterns = [
      path('course/create/', instructor.CourseCreateView.as_view(), name='create_course'),
      path('course/<str:slug>/update/', instructor.CourseUpdateView.as_view(), name='update_course'),
      path('course/<str:slug>/delete/', instructor.CourseDeleteView.as_view(), name="delete_course"),
+     path('course/<str:course_slug>/sections/', instructor.SectionListView.as_view(), name="list_sections"),
+     path('course/<str:course_slug>/section/create', instructor.SectionCreateView.as_view(), name="create_section"),
+     path('course/<str:course_slug>/section/<int:pk>/update', instructor.SectionUpdateView.as_view(), name="update_section")
 ]
 
 

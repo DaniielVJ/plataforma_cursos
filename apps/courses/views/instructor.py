@@ -4,8 +4,9 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from ..models import Course
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
+from ..models import Course, Section
 
 
 
@@ -102,4 +103,60 @@ class CourseDeleteView(InstructorRequiredMixin, DeleteView):
 
     
 
+# Section Views
+
+class SectionListView(InstructorRequiredMixin, ListView):
+    model = Section
+    template_name = "instructor/list_sections.html"
+    context_object_name = "sections"
     
+
+    # Devuelve solo las secciones asociadas a un curso que tenga como propietario al usuario que envio el request
+    # a esta view
+    def get_queryset(self):
+        # self.kwargs: atributo que se define a todas las views genericas de django para almacenar los valores que se mandan
+        # en el path de la url. solo hay que especificar el keyword con el que se identificaran los valores en el path
+        self.course = get_object_or_404(Course, slug=self.kwargs['course_slug'], owner=self.request.user)
+        return self.course.sections.prefetch_related('contents')
+
+    
+    # Define que datos del context de la View seran enviados al Context del template para ser renderizados
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = self.course
+        return context
+
+
+
+class SectionCreateView(InstructorRequiredMixin, CreateView):
+    model = Section
+    template_name = 'instructor/form_section.html'
+    fields = ['title', 'description']
+    
+    def form_valid(self, form):
+        self.course = get_object_or_404(Course, slug=self.kwargs['course_slug'], owner=self.request.user)
+        form.instance.course = self.course
+        return super().form_valid(form)
+    
+    
+
+    def get_success_url(self):
+        return reverse('instructor:list_sections', kwargs={'course_slug': self.kwargs.get('course_slug')})
+    
+
+
+class SectionUpdateView(InstructorRequiredMixin, UpdateView):
+    model = Section
+    fields = ['title', 'description']
+    template_name = 'instructor/form_section.html'
+   
+    def get_queryset(self):
+        # que busque el objeto o la sección que tenga el pk que se envia por la url solo dentro de este queryset
+        return self.model.objects.filter(course__slug=self.kwargs['course_slug'], course__owner=self.request.user)
+   
+
+    def get_success_url(self):
+        return reverse('instructor:list_sections', kwargs={'course_slug': self.kwargs['course_slug']})
+
+
+

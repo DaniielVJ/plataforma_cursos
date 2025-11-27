@@ -26,7 +26,7 @@
                 <div class="carouse-wrapper">
                     <div class="course-grid">
                         
-                        {% for course in courses%}
+                        {% for course in courses %}
                             <div class="course-card">
                                 <img src="{{course.image}}" alt="Imagen del curso" class="course-img">
                                 <div class="course-info">
@@ -34,7 +34,7 @@
 
                                 </div>
                                 
-                                <a href="#"><i class="fa-solid fa-eye"></i></a>
+                                <a href="{% url 'instructor:list_sections' course_slug=course.slug %}"><i class="fa-solid fa-eye"></i>&#32;Ver Secciones &#32;</a>
                                 <a href="{% url 'instructor:update_course' slug=course.slug %}"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <a href="{% url 'instructor:delete_course' slug=course.slug %}"><i class="fa-solid fa-trash"></i></a>
                                 

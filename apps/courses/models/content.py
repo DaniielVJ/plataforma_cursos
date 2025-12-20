@@ -58,6 +58,13 @@ class Content(models.Model):
     item = GenericForeignKey('content_type', 'object_id')
     order = OrderField(['section'], blank=True)
     
+
+    def __str__(self):
+        return self.item.title
+    
+    @property
+    def model_name(self):
+        return self._meta.model_name
     
 
 

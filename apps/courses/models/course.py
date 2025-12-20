@@ -42,6 +42,11 @@ class Course(models.Model):
         from .content import Content
         return Content.objects.filter(section__course=self).count()
 
+    @property
+    def model_name(self):
+        return self._meta.model_name
+
+
 # En este caso  la relacion muchos a muchos no tiene campos adicionales asi que no habria justificacion de que
 # nosotros creemos la tabla intermedia, podria crearla django, pero si deseamos personalizarla para el django admin
 # debemos crearla manualmente.

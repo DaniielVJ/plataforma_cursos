@@ -14,5 +14,9 @@ class Section(models.Model):
     
     
     def __str__(self):
-        return f"{self.course} --> {self.title}"
+        return f"{self.title}"
     
+    
+    @property
+    def model_name(self):
+        return self._meta.model_name

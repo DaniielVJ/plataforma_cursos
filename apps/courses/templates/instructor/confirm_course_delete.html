@@ -18,7 +18,7 @@
             {% include 'includes/header_instructor.html' %}
             
             <main>
-                <h2 style="text-align: center;" class="form-title">¿Seguro que desea eliminar el curso "{{course.title}}"?</h2>
+                <h2 style="text-align: center;" class="form-title">¿Seguro que desea eliminar el {{object.model_name}} "{{object}}"?</h2>
                 <form method="POST">
                     {% csrf_token %}
                     <div>

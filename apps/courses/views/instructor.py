@@ -1,12 +1,13 @@
 # Un mixin es una clase creada o pensada para simplemente añadir una funcionalidad en concreto a otra clase
 # o clases que hereden de esta. No es pensada para la herencia clasica, pero se aprovecha de esta para reutilizar funcionalidades
 # en concreto como las funciones pero aplicado a las clases.
-
+import json
+            
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.forms.models import modelform_factory
 from django.contrib.contenttypes.models import ContentType
 
@@ -294,4 +295,32 @@ class DeleteContentView(InstructorRequiredMixin, DeleteView):
 
 
 
+ # View encargada de recibir el orden de las secciones en el frontend y actualizar el backend con ese orden
+# que se envia desde el navegador.
+class OrderSectionView(InstructorRequiredMixin, View):
+    
+    def post(self, request, *args, **kwargs):
+        # Accedemos a los datos del request
+        try:
+            data = json.loads(request.body)
+            order = data.get('orden', [])
 
+            for index, section_id in enumerate(order):
+                Section.objects.filter(pk=section_id, course__owner=request.user).update(order=index)
+            return JsonResponse({'status': 'ok'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', "error": e})
+
+
+class OrderContentView(InstructorRequiredMixin, View):
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            order = data.get('orden', [])
+
+            for index, content_id in enumerate(order):
+                Content.objects.filter(pk=content_id, section__course__owner=request.user).update(order=index)
+            return JsonResponse({'status': 'ok'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', "error": str(e)})

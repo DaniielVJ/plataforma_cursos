@@ -31,7 +31,9 @@ urlpatterns = [
      path('course/<str:course_slug>/section/<int:section_id>/content/<str:model_name>/<int:id>/update/',
           instructor.CreateUpdateContentView.as_view(), name="update_content"),
      path('course/<str:course_slug>/section/<int:section_id>/content/<str:model_name>/<int:pk>/delete/',
-          instructor.DeleteContentView.as_view(), name='delete_content')
+          instructor.DeleteContentView.as_view(), name='delete_content'),
+     path('order-section/', instructor.OrderSectionView.as_view(), name='order_section'),
+     path('order-content/', instructor.OrderContentView.as_view(), name='order_content')
 ]
 
 

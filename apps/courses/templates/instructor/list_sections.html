@@ -51,3 +51,36 @@ al curso que se envia por parametro en la url y ademas tambien se carga el curso
     
 
 
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js"></script>
+    <script>
+        const contenedorElementos = document.getElementById("section_list");
+        const sortable = new Sortable(contenedorElementos, {
+            "animation": 150,
+            "onEnd": function(){
+                console.log("Elementos movido dentro del contenedorx")
+                let orden = Array.from(contenedorElementos.children).map(elemento => elemento.dataset.id)
+                
+                fetch("{% url 'instructor:order_section' %}", {
+                    method: "POST",
+                    headers: {
+                        // Este header le dice al server que tipo de datos le estamos transmitiendo
+                        "Content-Type": "application/json   ",
+                        // Este header le dice al servidor que el valor que se encuentra aqui es un token csrf
+                        // e igualmente es el header donde buscara el server en una peticion http si solicita un csrf token
+                        "X-CSRFToken": "{{csrf_token}}" ,
+                    },
+                    body: JSON.stringify({'orden': orden})
+                }).then(response => {
+                    if(!response.ok){
+                        console.warn("El servidor no pudo resolver", response.status)
+                    }else {
+                        console.log("ok")
+                    }
+                }).catch(error => console.error(error))
+            }
+        })
+    </script>
+{% endblock scripts %}
+    

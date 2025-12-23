@@ -37,10 +37,10 @@
                     <div class="course-sections">
                         <h2>Contenido del curso</h2>
                         <div class="accordion">
-                            {% for section in course.sections.all %}
+                            {% for section in sections %}
                             <!--Por cada seccion que tenga el curso creamos un item en el accodiom-->
                                 <div class="accordion-item">
-                                    <button class="accordion-header">Sección {{section.order | add:1}}: {{section.title}}</button>
+                                    <button class="accordion-header">Sección {{forloop.counter}}: {{section.title}}</button>
                                     <div class="accordion-content">
                                         <ul>
                                             {% for content in section.contents.all %}
@@ -88,7 +88,7 @@
                                 <li><i class="fa-solid fa-video"></i> {{course.course_info.duration}} horas de contenido en video</li>
                                 <li><i class="fa-solid fa-graduation-cap"></i><b>Instructor:</b> {{course.owner.get_full_name}}</li>
                             </ul>
-                            <a class="btn bnt-primary btn-course" href="{% url 'course_lessons' slug=course.slug %} ">Continuar aprendiendo</a>
+                            <a class="btn bnt-primary btn-course" href="{% url 'student:course_lessons' slug=course.slug %} ">Continuar aprendiendo</a>
                         </div>
                     </div>
                 </div>

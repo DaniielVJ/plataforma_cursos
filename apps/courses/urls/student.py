@@ -1,10 +1,12 @@
 # En este modulo definiremos las urls que expondremos o podran utilizar los estudiantes
 from django.urls import path
-from courses.views import student
+from ..views import student
 
 app_name = "student" # las urls de este archivo seran referenciadas con ese prefijo
 
 
 urlpatterns = [
-     
+    path('courses/', student.courses_list, name='courses_list'), # /courses -> listar los cursos
+    path('courses/detail/<str:slug>', student.course_detail, name='course_detail'), # mostrar detalles del curso
+    path('courses/<str:slug>/lessons/', student.course_lessons, name='course_lessons') # url para mostrar la leccion del curso seleccionada
 ]

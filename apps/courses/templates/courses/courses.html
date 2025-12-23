@@ -41,7 +41,7 @@
                             
                             {% for course in page_courses%} <!--Creamos un curso en el html, por cada curso de la lista traida de la base de datos-->
                                 <div class="course-card">
-                                    <a href="{% url 'course_detail' slug=course.slug %}">
+                                    <a href="{% url 'student:course_detail' slug=course.slug %}">
                                         <img src="{{course.image}}" alt="Course Image" class="course-img" />
                                         <div class="course-info">
                                             <div class="course-rating">

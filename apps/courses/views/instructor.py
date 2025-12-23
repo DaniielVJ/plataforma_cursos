@@ -293,8 +293,6 @@ class DeleteContentView(InstructorRequiredMixin, DeleteView):
         return redirect('instructor:content_list', section_id=self.section.pk, course_slug=self.section.course.slug)
 
 
-
-
  # View encargada de recibir el orden de las secciones en el frontend y actualizar el backend con ese orden
 # que se envia desde el navegador.
 class OrderSectionView(InstructorRequiredMixin, View):
@@ -324,3 +322,7 @@ class OrderContentView(InstructorRequiredMixin, View):
             return JsonResponse({'status': 'ok'})
         except Exception as e:
             return JsonResponse({'status': 'error', "error": str(e)})
+        
+
+
+        

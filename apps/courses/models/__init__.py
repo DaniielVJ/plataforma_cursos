@@ -8,7 +8,7 @@ from .progress import Progress
 from .review import Review
 from .course import Course, CourseCategory
 from .content import Content, File, Image, Text, Video
-
+from .progress_tracking import CompletedContent
 
 
 # EJEMPLO: 

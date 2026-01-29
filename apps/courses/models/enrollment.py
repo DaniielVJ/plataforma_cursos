@@ -11,7 +11,6 @@ class Enrollment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enrollments")
     enrollment_at = models.DateTimeField(auto_now_add=True)
     
-    
     def __str__(self):
         return f"Inscripción de {self.user} a {self.course}"
     

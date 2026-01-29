@@ -38,9 +38,11 @@ class Course(models.Model):
         #                 for content in section.contents.all())
         return sum(section.contents.count() for section in sections)
 
+
     def calculate_total_lessons2(self):
         from .content import Content
         return Content.objects.filter(section__course=self).count()
+
 
     @property
     def model_name(self):

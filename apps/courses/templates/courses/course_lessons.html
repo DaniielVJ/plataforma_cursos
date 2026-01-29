@@ -13,9 +13,9 @@
 
 {% block content %}
 
-    {{lessons}}
-
-
+    {{sections}}
+    
+        
     <!-- HEADER SUPERIOR -->
     <header class="topbar">
         <div class="acciones">
@@ -50,6 +50,9 @@
                             <ul>
                                
                                {% for content in section.contents.all %}
+                               {% comment %} .item es una llave generica no foranea, es decir que funciona con cualquier modelo, permite
+                               a mis objetos content asociarlos con cualquier modelo sirve para todos los modelos del sistema, no como foreignkey
+                               que solo funciona para un mismo modelo.{% endcomment %}
                                     <li><a href="">{{content.item.title}}</a></li>
                                {% endfor %}
                                 

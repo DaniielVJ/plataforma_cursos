@@ -53,8 +53,8 @@ class Content(models.Model):
     })
     # contiene el identificador del recurso o objeto del modelo al que se asocie en el campo content_type
     object_id = models.PositiveIntegerField()
-    # Item es el campo que realmente almacenara el contenido de cada registro content, la imagen, articulo, video, etc.
-    # Entonces este campo permite asociar ese item o recurso a un tipo de contenido que es.
+    # Llave foranea generica, permite asociar  a cada objeto del modelo a cualquier otro modelo del sistema
+    # no funciona con solo uno. 
     item = GenericForeignKey('content_type', 'object_id')
     order = OrderField(['section'], blank=True)
     
@@ -66,6 +66,21 @@ class Content(models.Model):
     def model_name(self):
         return self._meta.model_name
     
+
+    def get_next_content(self):
+        course = self.section.course
+        next_content = self.section.contents.filter(order__gt=self.order).order_by('order').first()
+
+        if not next_content:
+            next_section = Section.objects.filter(course=course, order__gt=self.section.order).order_by('order').first()
+
+            if next_section:
+                next_content = next_section.contents.order_by('order').first()
+
+        return next_content
+
+
+
 
 
 # content_type: este campo indica a que modelo esta asociado cada objeto de el modelo content igual que cualquier otro

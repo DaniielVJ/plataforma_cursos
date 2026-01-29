@@ -1,4 +1,8 @@
-.venv*
+# Ignorar archivos es mas que suficiente pq git no commitea o no guarda los cambios de carpears vacias.
+# pero lo agrego para que se muestre ignorada en el vscode :v
+.venv/*
+.venv/
+__pycache__/*
 __pycache__/
 *.pyc
 *.pyo
